@@ -11,6 +11,17 @@ class Device extends Model
 
     protected $fillable = [
         'name',
-        'machine_number'
+        'machine_number',
+        'patient_id'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class, 'id', 'patient_id');
+    }
 }

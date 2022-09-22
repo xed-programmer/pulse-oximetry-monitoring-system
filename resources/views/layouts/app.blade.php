@@ -65,11 +65,10 @@
           </li>
           @if(auth()->user())
           <li>
-            <a href="#" class="nav-link">Admin</a>
+            <a href="{{ route('user.index') }}" class="nav-link">Admin</a>
           </li>
           @endif
-          <li class="dropdown"><a href="#"><span>{{ Str::limit(Auth::user()->name,15) }}</span> <i
-                class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span>{{ Str::limit(Auth::user()->name,15) }}</span></a>
             <ul>
               <li><a href="#">
                  <p>Your Profile

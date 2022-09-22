@@ -42,4 +42,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->hasOne(Role::class,'id', 'role_id');
+    }
+
+    public function hasRole($role)
+    {
+        $role = Role::where('name', $role)->first();        
+        return $role->id == auth()->user()->role_id;
+    }
+
+    public function devices()
+    {
+        return $this->belongsToMany(Device::class);
+    }
+
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class);
+    }
 }
