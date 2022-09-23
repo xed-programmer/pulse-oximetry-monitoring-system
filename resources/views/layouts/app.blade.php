@@ -50,9 +50,11 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="{{ route('home') }}">POMS<span>.</span></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
+      <div class="d-flex flex-row align-items-center">
+        <a href="index.html" class="logo"><img src="{{ asset('dist/img/logo.png') }}" alt="POMS"></a>
+        <h1 class="logo"><a href="{{ route('home') }}">POMS<span>.</span></a></h1>
+      </div>
 
       <nav id="navbar" class="navbar">
         <ul>
@@ -60,12 +62,9 @@
           <li><a class="nav-link" href="{{ route('home') }}#about">About</a></li>
           <li><a class="nav-link" href="{{ route('home') }}#contact">Contact</a></li>
           @auth
+          @if(auth()->user()->hasRole('user'))
           <li>
-            <a href="#" class="nav-link">Patients</a>
-          </li>
-          @if(auth()->user())
-          <li>
-            <a href="{{ route('user.index') }}" class="nav-link">Admin</a>
+            <a href="{{ route('user.index') }}" class="nav-link">User</a>
           </li>
           @endif
           <li class="dropdown"><a href="#"><span>{{ Str::limit(Auth::user()->name,15) }}</span></a>

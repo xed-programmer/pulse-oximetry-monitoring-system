@@ -69,9 +69,9 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    @if (auth()->user()->hasRole('user'))
+                    @if (auth()->user()->hasRole('admin'))
                     {{-- as --}}
-                    @elseif (auth()->user()->hasRole('admin'))
+                    @elseif (auth()->user()->hasRole('user'))
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">                        
                         <li class="nav-item">
                             <a href="{{ route('user.index') }}" class="nav-link">

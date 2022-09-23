@@ -30,7 +30,7 @@
     <div class="col-12 col-sm-6 col-md-4">
         <div class="info-box">
             <input type="text" id="{{ 'device'.$i }}" class="knob" data-skin="tron" data-thickness="0.2" data-width="90"
-                data-height="90" data-fgColor="#3c8dbc" data-readonly="true" disabled>
+                data-height="90" data-fgColor="#ff0030" data-readonly="true" disabled>
 
             <div class="info-box-content">
                 <span class="info-box-text">Patient: <span id="{{ 'name'.$i }}">Patient Name</span></span>
@@ -44,7 +44,7 @@
     @endforeach
 </div>
 <div class="row">    
-    <div class="col-12 col-sm-6 col-md-4">
+    <div class="col-12 col-sm-6 col-md-6">
         <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-procedures"></i></span>
             <div class="info-box-content">
@@ -53,21 +53,12 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-4">
+    <div class="col-12 col-sm-6 col-md-6">
         <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-laptop-medical"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Devices</span>
                 <span class="info-box-number">{{ $user->devices->count() }}</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4">
-        <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Users</span>
-                <span class="info-box-number">0</span>
             </div>
         </div>
     </div>
