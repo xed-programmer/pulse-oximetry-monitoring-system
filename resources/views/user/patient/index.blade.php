@@ -65,11 +65,6 @@
                         <label for="name">Patient Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Patient Name">
                     </div>
-                    <div class="form-group">
-                        <label for="age">Age</label>
-                        <input type="number" min="0" class="form-control" id="age" name="age"
-                            placeholder="Enter Patient Age">
-                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
@@ -99,10 +94,7 @@
                         <label for="edit_name">Patient Name</label>
                         <input type="text" class="form-control" id="edit_name" name="name">
                     </div>
-                    <div class="form-group">
-                        <label for="edit_age">Age</label>
-                        <input type="number" class="form-control" id="edit_age" name="age">
-                    </div>
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
@@ -144,7 +136,11 @@
             method:"POST",
             url: "{{ route('patient.data') }}",
             data:{
-              api_key:"tPmAT5Ab3j7F9"
+              api_key:"tPmAT5Ab3j7F9",
+              id:{{ auth()->id() }}
+            },
+            error: function(data){
+                console.log(data.responseText);
             }
           },
           columns:[

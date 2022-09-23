@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -13,9 +14,11 @@ class DeviceController extends Controller
     // ANG CONTROLLER NA TO AT PARA SA PAGMANIPULATE NG DATA NG DEVICE
     public function index()
     {
-        $devices = Device::with('patient')->get();
-        $patients = Patient::all();
-        return view('user.device.index')->with(['devices'=>$devices, 'patients'=>$patients]);
+        $user_id = auth()->id();
+        $patients = Patient::whereHas('users', function($q) use($user_id){
+            $q->where('user_id', $user_id);
+        })->get();
+        return view('user.device.index')->with(['patients'=>$patients]);
     }
 
 
@@ -27,7 +30,9 @@ class DeviceController extends Controller
             'machine_number'=>['required','unique:devices,machine_number']
         ]);
 
-        Device::create($request->only(['name','machine_number']));        
+        $device = Device::create($request->only(['name','machine_number']));        
+        $user = User::find(auth()->id());
+        $user->devices()->attach($device->id);
         return back();
     }
 

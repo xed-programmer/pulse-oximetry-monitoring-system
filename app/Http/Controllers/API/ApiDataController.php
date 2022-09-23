@@ -16,14 +16,17 @@ class ApiDataController extends Controller
     public function getDevices(Request $request)
     {
         $request->validate([
-            'api_key'=>['required']
+            'api_key'=>['required'],
+            'id'=>['required'],
         ]);
 
         if($request->api_key != $this->api_key_value){
             echo [];
         }
-
-        $devices = Device::all();
+        $user = $request->id;
+        $devices = Device::whereHas('users', function($q) use($user){
+            $q->where('user_id', $user);
+        })->get();
         $value = [];
         foreach($devices as $d){
             $patient_name = "";
@@ -46,14 +49,19 @@ class ApiDataController extends Controller
     public function getPatients(Request $request)
     {
         $request->validate([
-            'api_key'=>['required']
+            'api_key'=>['required'],            
+            'id'=>['required'],            
         ]);
 
         if($request->api_key != $this->api_key_value){
             echo [];
         }
 
-        $patients = Patient::all();
+        $user_id =$request->id;
+        $patients = Patient::whereHas('users', function($q) use($user_id){
+            $q->where('user_id', $user_id);
+        })->get();
+        // $patients = Patient::all();
         $value = [];
         foreach($patients as $d){
             array_push($value,[$d['id'],$d['patient_number'],$d['name'] ]);

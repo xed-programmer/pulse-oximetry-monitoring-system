@@ -160,7 +160,11 @@
             method:"POST",
             url: "{{ route('device.data') }}",
             data:{
-              api_key:"tPmAT5Ab3j7F9"
+              api_key:"tPmAT5Ab3j7F9",
+              id:{{ auth()->id() }}
+            },
+            error: function(data){
+                console.log(data.responseText);
             }
           },
           columns:[
