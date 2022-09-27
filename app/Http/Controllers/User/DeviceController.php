@@ -44,7 +44,7 @@ class DeviceController extends Controller
         ]);
         $device = Device::with('patient')
         ->where('id',$request->id)
-        ->firstOrFail();        
+        ->firstOrFail();
         return Response::json($device);
     }
 

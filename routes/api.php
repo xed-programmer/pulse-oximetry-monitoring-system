@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ApiDataController;
 use App\Http\Controllers\API\PulseController;
+use App\Http\Controllers\User\DeviceController;
 use App\Http\Controllers\User\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
