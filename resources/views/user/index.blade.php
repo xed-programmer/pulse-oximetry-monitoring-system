@@ -26,10 +26,10 @@
 
 @section('content')
 <div class="row">    
-    @foreach ($user->devices as $i => $device)
+    @foreach ($user->patients as $i => $patient)
     <div class="col-12 col-sm-6 col-md-4">
         <div class="info-box">
-            <input type="text" id="{{ 'device'.$i }}" class="knob" data-skin="tron" data-thickness="0.2" data-width="90"
+            <input type="text" id="{{ 'patient'.$i }}" class="knob" data-skin="tron" data-thickness="0.2" data-width="90"
                 data-height="90" data-fgColor="#ff0030" data-readonly="true" disabled>
 
             <div class="info-box-content">
@@ -82,13 +82,13 @@
                     Object.keys(datas[i]).forEach(key => {
                         let tempData = datas[i][key][0]                        
                         $('#name'+i).text(tempData['patient']['name'])
-                        $('#device'+i).val(tempData['spo2'])
-                        $('#device'+i).trigger('change')
+                        $('#patient'+i).val(tempData['spo2'])
+                        $('#patient'+i).trigger('change')
                         $('#spo2'+i).text(tempData['spo2'])
                         $('#hr'+i).text(tempData['hr'])
                         var condition = '';
                         if(tempData['spo2'] > tempData['spo2_limit']){
-                            condition='NORMAL'                              
+                            condition='NORMAL'
                         }else{
                             condition='SEVERE'
                         }

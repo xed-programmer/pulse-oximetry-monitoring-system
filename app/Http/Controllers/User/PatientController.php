@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -31,10 +32,8 @@ class PatientController extends Controller
     {
         $request->validate([
             'name'=>['required','max:255'],
-            'age' =>['required','numeric'],
-            'phone' => ['required','regex:/(09)[0-9]{9}/','min:11']
         ]);
-        
+
         $unique_id = null;
         do {
             $unique_id = uniqid('P-');
@@ -43,11 +42,12 @@ class PatientController extends Controller
         } while ($patient->count()>0);
         
         $patient = Patient::create([
-            'name' => $request->name,
-            'age' => $request->age,
-            'phone' => $request->phone,
+            'name' => $request->name,            
             'patient_number' => $unique_id
         ]);
+
+        $user = User::find(auth()->id());
+        $user->patients()->attach($patient->id);
 
         if ($patient) {
             $request->session()->flash('message', 'Patient Data Added Successfully');
@@ -72,15 +72,11 @@ class PatientController extends Controller
     {
         $request->validate([
             'id' => ['required', 'exists:patients,id'],
-            'name'=>['required','max:255'],
-            'age' =>['required','numeric'],
-            'phone' => ['required','regex:/(09)[0-9]{9}/','min:11']
+            'name'=>['required','max:255'],            
         ]);
 
         $patient = Patient::find($request->id);
-        $patient->name = $request->name;
-        $patient->age = $request->age;
-        $patient->phone = $request->phone;
+        $patient->name = $request->name;        
         if ($patient->save()) {
             $request->session()->flash('message', 'Patient Data Updated Successfully');
             $request->session()->flash('result', 'success');

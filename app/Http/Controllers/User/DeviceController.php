@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -25,9 +26,13 @@ class DeviceController extends Controller
         $request->validate([
             'name'=>['required'],
             'machine_number'=>['required','unique:devices,machine_number']
-        ]);
+        ]);        
 
-        Device::create($request->only(['name','machine_number']));        
+        $device = Device::create($request->only(['name','machine_number']));
+        if($device){
+            $user = User::find(auth()->id());
+            $user->devices()->attach($device->id);
+        }
         return back();
     }
 
