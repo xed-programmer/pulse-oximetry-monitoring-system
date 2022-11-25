@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device;
+use App\Models\Patient;
 use App\Models\Pulse;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -89,20 +90,21 @@ class PulseController extends Controller
     public function getLatestPatientPulse()
     {
         // KINUKUHA YUNG LATEST PULSE NG PATIENT
-        $devices = Device::all();
-        $array_pulse = array();
 
-        foreach ($devices as $d) {
-            $pulse = Pulse::with(['patient'])
-                ->where('patient_id', $d['patient_id'])
-                ->where('device_id', $d['id'])
-                ->latest()
-                ->limit(1)
-                ->get()
-                ->groupBy('device_id');
-            array_push($array_pulse, $pulse);
-        }
-        echo json_encode($array_pulse);
+        $patient = Patient::with('pulses')->whereHas('users', function($q){
+            $q->where('user_id', 2);
+        })->get();
+
+        dd($patient);
+
+        $pulse = Pulse::whereHas('patient', function($q){
+            $q->whereHas('users', function($sq){
+                $sq->where("user_id",2);
+            });
+        })
+        ->get();        
+        dd($pulse);               
+        // echo json_encode($array_pulse);
     }
 
     public function getUserPatientPulse($id)

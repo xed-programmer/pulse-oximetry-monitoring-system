@@ -19,4 +19,8 @@ class Patient extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function pulses(){
+        return $this->hasMany(Pulse::class, 'patient_id', 'id')->orderBy('created_at', 'DESC');
+    }
 }

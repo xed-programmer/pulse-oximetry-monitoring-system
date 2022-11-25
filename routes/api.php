@@ -23,10 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::post('pulse-data', [PulseController::class, 'index'])->name('pulse.data');
-Route::get('pulse-data', [PulseController::class, 'index'])->name('pulse.data');
+Route::post('pulse-data', [PulseController::class, 'index'])->name('pulse.data');
+// Route::get('pulse-data', [PulseController::class, 'index'])->name('pulse.data');
 Route::post('patient-pulse', [PulseController::class, 'getPatientPulse'])->name('patient.pulse');
-Route::post('latest-patient-pulse', [PulseController::class, 'getLatestPatientPulse'])->name('latest.patient.pulse');
+Route::get('latest-patient-pulse', [PulseController::class, 'getLatestPatientPulse'])->name('latest.patient.pulse');
 Route::post('device-data', [ApiDataController::class, 'getDevices'])->name('device.data');
 Route::post('patient-data', [ApiDataController::class, 'getPatients'])->name('patient.data');
 Route::post('user-patient-data/{user}', [ApiDataController::class, 'getUserPatients'])->name('user.patient.data');
