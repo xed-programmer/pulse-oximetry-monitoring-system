@@ -14,7 +14,10 @@ class PatientController extends Controller
     // FUNCTION PARA I-VIEW ANG PATIENT TAB
     public function index()
     {        
-        $patients = Patient::all();
+        $patients = Patient::whereHas('users', function($q){
+            $q->where('user_id', auth()->id());
+        })->get();
+        // dd($patients);
         return view('user.patient.index')->with([
             'patients'=>$patients
         ]);

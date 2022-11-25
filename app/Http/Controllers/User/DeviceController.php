@@ -14,9 +14,11 @@ class DeviceController extends Controller
     // ANG CONTROLLER NA TO AT PARA SA PAGMANIPULATE NG DATA NG DEVICE
     public function index()
     {
-        $devices = Device::with('patient')->get();
-        $patients = Patient::all();
-        return view('user.device.index')->with(['devices'=>$devices, 'patients'=>$patients]);
+        // $devices = Device::with('patient')->get();
+        $patients = Patient::whereHas('users', function($q){
+            $q->where('user_id', auth()->id());
+        })->get();
+        return view('user.device.index')->with(['patients'=>$patients]);        
     }
 
 

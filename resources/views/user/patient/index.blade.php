@@ -134,7 +134,8 @@
             method:"POST",
             url: "{{ route('patient.data') }}",
             data:{
-              api_key:"tPmAT5Ab3j7F9"
+              api_key:"tPmAT5Ab3j7F9",
+              id:{{ auth()->id() }}
             }
           },
           columns:[
