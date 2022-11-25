@@ -80,7 +80,7 @@
                 }
             }))
             .then((data,textStatus,jqXHR)=>{
-                let datas = JSON.parse(data)                
+                let datas = JSON.parse(data)                    
                 for(var i=0; i<datas.length; i++){
                     let data = datas[i]
                     $('#name'+i).text(data['patient']['name'])
