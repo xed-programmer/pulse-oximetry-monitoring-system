@@ -74,27 +74,28 @@
             var message = ''
             $.when($.ajax({
                 method:'POST',
-                url: '{{ route("latest.patient.pulse") }}'
+                url: '{{ route("latest.patient.pulse") }}',
+                data: {
+                    id: {{ auth()->id() }}
+                }
             }))
             .then((data,textStatus,jqXHR)=>{
                 let datas = JSON.parse(data)                
-                for(var i = 0; i<datas.length; i++){
-                    Object.keys(datas[i]).forEach(key => {
-                        let tempData = datas[i][key][0]                        
-                        $('#name'+i).text(tempData['patient']['name'])
-                        $('#patient'+i).val(tempData['spo2'])
+                for(var i=0; i<datas.length; i++){
+                    let data = datas[i]
+                    $('#name'+i).text(data['patient']['name'])
+                        $('#patient'+i).val(data['spo2'])
                         $('#patient'+i).trigger('change')
-                        $('#spo2'+i).text(tempData['spo2'])
-                        $('#hr'+i).text(tempData['hr'])
+                        $('#spo2'+i).text(data['spo2'])
+                        $('#hr'+i).text(data['hr'])
                         var condition = '';
-                        if(tempData['spo2'] > tempData['spo2_limit']){
+                        if(data['spo2'] > data['spo2_limit']){
                             condition='NORMAL'
                         }else{
                             condition='SEVERE'
                         }
-                        $('#condition'+i).text(condition)                        
-                    });
-                }
+                        $('#condition'+i).text(condition)               
+                }                
             })
 
         }

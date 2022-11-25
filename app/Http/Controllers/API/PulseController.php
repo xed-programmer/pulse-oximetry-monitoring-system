@@ -87,24 +87,35 @@ class PulseController extends Controller
         echo json_encode($array_pulse);
     }
     
-    public function getLatestPatientPulse()
+    public function getLatestPatientPulse(Request $request)
     {
-        // KINUKUHA YUNG LATEST PULSE NG PATIENT
-
-        $patient = Patient::with('pulses')->whereHas('users', function($q){
-            $q->where('user_id', 2);
-        })->get();
-
-        dd($patient);
-
-        $pulse = Pulse::whereHas('patient', function($q){
-            $q->whereHas('users', function($sq){
-                $sq->where("user_id",2);
+        // KINUKUHA YUNG LATEST PULSE NG PATIENT     
+        
+        // $devices = Device::all();
+        // $array_pulse = array();
+        // $patient = Patient::with('pulses')->whereHas('users', function($q){
+        //     $q->where('user_id', 2);
+        // })->get();
+        
+        $pulses = Pulse::with('patient')->whereHas('patient', function($q) use($request){
+            $q->whereHas('users', function($sq) use($request){
+                $sq->where('user_id', $request->id);
             });
         })
-        ->get();        
-        dd($pulse);               
-        // echo json_encode($array_pulse);
+        ->latest()
+        ->limit(1)->get();
+        // foreach ($devices as $d) {
+        //     $pulse = Pulse::with(['patient'])
+        //         ->where('patient_id', $d['patient_id'])
+        //         ->where('device_id', $d['id'])
+        //         ->latest()
+        //         ->limit(1)
+        //         ->get()
+        //         ->groupBy('device_id');
+        //     array_push($array_pulse, $pulse);
+        // }
+        
+        echo json_encode($pulses);
     }
 
     public function getUserPatientPulse($id)
