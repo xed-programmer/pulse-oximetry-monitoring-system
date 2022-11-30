@@ -40,30 +40,30 @@ class PulseController extends Controller
             'spo2' => $spo2
         ]);
 
-        // if ($spo2 < 90) {
-        //     echo "sending email";
-        //     $details = (object) array();
+        if ($spo2 < 90) {
+            echo "sending email";
+            $details = (object) array();
 
-        //     $users = User::whereHas('patients', function ($q) use ($device) {
-        //         $q->where('patient_id', $device->patient_id);
-        //     })->get();
+            $users = User::whereHas('patients', function ($q) use ($device) {
+                $q->where('patient_id', $device->patient_id);
+            })->get();
 
-        //     foreach ($users as $user) {
-        //         $currentTime = now();
-        //         if (empty($user->email_sent) || $currentTime->diffInMinutes($user->email_sent) > 3) {
-        //             $details->user = $user;
-        //             $details->hr = $hr;
-        //             $details->spo2 = $spo2;
-        //             $details->spo2_limit = 90;
+            foreach ($users as $user) {
+                $currentTime = now();
+                if (empty($user->email_sent) || $currentTime->diffInMinutes($user->email_sent) > 3) {
+                    $details->user = $user;
+                    $details->hr = $hr;
+                    $details->spo2 = $spo2;
+                    $details->spo2_limit = 90;
                     
-        //             // PulseReportSendEmail::dispatch($details);
-        //             // Mail::to($details->user->email)
-        //             // ->send(new QueuePulseReportEmail($details));
-        //             $user->email_sent = $currentTime;
-        //             $user->save();
-        //         }
-        //     }
-        // }
+                    // PulseReportSendEmail::dispatch($details);
+                    // Mail::to($details->user->email)
+                    // ->send(new QueuePulseReportEmail($details));
+                    $user->email_sent = $currentTime;
+                    $user->save();
+                }
+            }
+        }
         echo "ok";
     }
 

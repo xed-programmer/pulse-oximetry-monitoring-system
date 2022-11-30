@@ -88,12 +88,8 @@
                         $('#patient'+i).trigger('change')
                         $('#spo2'+i).text(data['spo2'])
                         $('#hr'+i).text(data['hr'])
-                        var condition = '';
-                        if(data['spo2'] > data['spo2_limit']){
-                            condition='NORMAL'
-                        }else{
-                            condition='SEVERE'
-                        }
+                        var condition = (data['spo2'] >= 90)? 'NORMAL':'SEVERE';
+                    
                         $('#condition'+i).text(condition)               
                 }                
             })
