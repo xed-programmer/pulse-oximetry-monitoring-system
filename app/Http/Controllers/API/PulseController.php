@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QueuePulseReportEmail;
 use App\Models\Device;
 use App\Models\Patient;
 use App\Models\Pulse;
@@ -57,8 +58,8 @@ class PulseController extends Controller
                     $details->spo2_limit = 90;
                     
                     // PulseReportSendEmail::dispatch($details);
-                    // Mail::to($details->user->email)
-                    // ->send(new QueuePulseReportEmail($details));
+                    Mail::to($details->user->email)
+                    ->send(new QueuePulseReportEmail($details));
                     $user->email_sent = $currentTime;
                     $user->save();
                 }
