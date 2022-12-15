@@ -14,11 +14,11 @@ class DeviceController extends Controller
     // ANG CONTROLLER NA TO AT PARA SA PAGMANIPULATE NG DATA NG DEVICE
     public function index()
     {
-        // $devices = Device::with('patient')->get();
-        $patients = Patient::whereHas('users', function($q){
-            $q->where('user_id', auth()->id());
+        $user_id = auth()->id();
+        $patients = Patient::whereHas('users', function($q) use($user_id){
+            $q->where('user_id', $user_id);
         })->get();
-        return view('user.device.index')->with(['patients'=>$patients]);        
+        return view('user.device.index')->with(['patients'=>$patients]);
     }
 
 
@@ -30,11 +30,9 @@ class DeviceController extends Controller
             'machine_number'=>['required','unique:devices,machine_number']
         ]);        
 
-        $device = Device::create($request->only(['name','machine_number']));
-        if($device){
-            $user = User::find(auth()->id());
-            $user->devices()->attach($device->id);
-        }
+        $device = Device::create($request->only(['name','machine_number']));        
+        $user = User::find(auth()->id());
+        $user->devices()->attach($device->id);
         return back();
     }
 
@@ -46,7 +44,7 @@ class DeviceController extends Controller
         ]);
         $device = Device::with('patient')
         ->where('id',$request->id)
-        ->firstOrFail();        
+        ->firstOrFail();
         return Response::json($device);
     }
 

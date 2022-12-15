@@ -131,6 +131,7 @@
     $(function(){
         $('body').on('click', '#btn_edit_device', function(){
             var device_id = $(this).data('device-id')
+            console.log(device_id);
             $('#device_id').val("")
             $('#edit_name').val("")
             $('#edit_machine_number').val("")
@@ -177,7 +178,7 @@
           ]
         });
 
-        setInterval(() => {            
+        setInterval(() => {
             $("#deviceTable").DataTable().ajax.reload();
         }, 3000);
       });    

@@ -75,9 +75,9 @@
                 {{ Str::limit(Auth::user()->email, 22) }}</a></li>
                  </p>
               <li>
-                <form action="{{ route('logout') }}" method="post">
+                <form action="{{ route('logout') }}" method="post" class="w-100 h-100">
                   @csrf
-                  <input type="submit" value="Logout" class="btn btn-light btn-block">
+                  <input type="submit" value="Logout" class="btn btn-block w-100 h-100">
                 </form>
               </li>
             </ul>

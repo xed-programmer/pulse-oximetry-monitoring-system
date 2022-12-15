@@ -63,7 +63,11 @@
                     <div class="form-group">
                         <label for="name">Patient Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter Patient Name">
+<<<<<<< HEAD
                     </div>               
+=======
+                    </div>
+>>>>>>> 1b863d905b2da87956d1bd566a6e22805bccf2ec
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
@@ -92,7 +96,8 @@
                     <div class="form-group">
                         <label for="edit_name">Patient Name</label>
                         <input type="text" class="form-control" id="edit_name" name="name">
-                    </div>           
+                    </div>
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
@@ -136,6 +141,9 @@
             data:{
               api_key:"tPmAT5Ab3j7F9",
               id:{{ auth()->id() }}
+            },
+            error: function(data){
+                console.log(data.responseText);
             }
           },
           columns:[
