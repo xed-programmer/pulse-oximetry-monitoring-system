@@ -2,8 +2,7 @@
 
 @section('preload')
 <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="POMS LOGO" height="60"
-        width="60">
+    <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="POMS LOGO" height="60" width="60">
 </div>
 @endsection
 @section('header')
@@ -25,12 +24,12 @@
 @endsection
 
 @section('content')
-<div class="row">    
+<div class="row">
     @foreach ($user->patients as $i => $patient)
     <div class="col-12 col-sm-6 col-md-4">
         <div class="info-box">
-            <input type="text" id="{{ 'patient'.$i }}" class="knob" data-skin="tron" data-thickness="0.2" data-width="90"
-                data-height="90" data-fgColor="#ff0030" data-readonly="true" disabled>
+            <input type="text" id="{{ 'patient'.$i }}" class="knob" data-skin="tron" data-thickness="0.2"
+                data-width="90" data-height="90" data-fgColor="#ff0030" data-readonly="true" disabled>
 
             <div class="info-box-content">
                 <span class="info-box-text">Patient: <span id="{{ 'name'.$i }}">Patient Name</span></span>
@@ -43,7 +42,7 @@
     </div>
     @endforeach
 </div>
-<div class="row">    
+<div class="row">
     <div class="col-12 col-sm-6 col-md-6">
         <div class="info-box">
             <span class="info-box-icon bg-info elevation-1"><i class="fas fa-procedures"></i></span>
@@ -80,15 +79,16 @@
                 }
             }))
             .then((data,textStatus,jqXHR)=>{
-                let datas = JSON.parse(data)                    
+                let datas = JSON.parse(data)                       
                 for(var i=0; i<datas.length; i++){
-                    let data = datas[i]
-                    $('#name'+i).text(data['patient']['name'])
-                        $('#patient'+i).val(data['spo2'])
+                    let data = datas[i]                    
+                    let pulse = data['pulses'][0]                    
+                    $('#name'+i).text(data['name'])
+                        $('#patient'+i).val(pulse['spo2'])
                         $('#patient'+i).trigger('change')
-                        $('#spo2'+i).text(data['spo2'])
-                        $('#hr'+i).text(data['hr'])
-                        var condition = (data['spo2'] >= 90)? 'NORMAL':'SEVERE';
+                        $('#spo2'+i).text(pulse['spo2'])
+                        $('#hr'+i).text(pulse['hr'])
+                        var condition = (pulse['spo2'] >= 90)? 'NORMAL':'SEVERE';
                     
                         $('#condition'+i).text(condition)               
                 }                

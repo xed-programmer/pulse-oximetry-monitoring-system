@@ -90,33 +90,15 @@ class PulseController extends Controller
     
     public function getLatestPatientPulse(Request $request)
     {
-        // KINUKUHA YUNG LATEST PULSE NG PATIENT     
+        // KINUKUHA YUNG LATEST PULSE NG PATIENT        
+
+        $patients = Patient::with(['pulses'=>function($q){
+            $q->latest()->limit(1);
+        }])->whereHas('users', function($q) use($request){
+            $q->where('user_id', $request->id);
+        })->get();
         
-        // $devices = Device::all();
-        // $array_pulse = array();
-        // $patient = Patient::with('pulses')->whereHas('users', function($q){
-        //     $q->where('user_id', 2);
-        // })->get();
-        
-        $pulses = Pulse::with('patient')->whereHas('patient', function($q) use($request){
-            $q->whereHas('users', function($sq) use($request){
-                $sq->where('user_id', $request->id);
-            });
-        })
-        ->latest()
-        ->limit(1)->get();
-        // foreach ($devices as $d) {
-        //     $pulse = Pulse::with(['patient'])
-        //         ->where('patient_id', $d['patient_id'])
-        //         ->where('device_id', $d['id'])
-        //         ->latest()
-        //         ->limit(1)
-        //         ->get()
-        //         ->groupBy('device_id');
-        //     array_push($array_pulse, $pulse);
-        // }
-        
-        echo json_encode($pulses);
+        echo json_encode($patients);
     }
 
     public function getUserPatientPulse($id)
